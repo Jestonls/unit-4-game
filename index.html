@@ -18,44 +18,36 @@
 
     <div class="container">
 
-      <div class="row">
-              <section class="col-lg-12 col-md-12">
-                      <h1 id="winnerLooser" class="text-center col-lg-12 col-md-12"></h1>
-                      <button class="text-center col-lg-12 col-md-12">
-                      <h1 id="start">START</h1>
-                      </button>
-                      <h1 id="total" class="text-center col-lg-12 col-md-12" value="0"></h1>
-                      <h1 id="restart" class="text-center col-lg-12 col-md-12"></h1>       
-              </section>
-          </div>
 
   <div class="row">
-      <h2 class="col-lg-12 text-center">MATCH THIS NUMBER <span id="number-to-guess"></span>  </h2>
+      <h1 class="col-lg-12 text-center">MATCH THIS NUMBER <span id="number-to-guess"></span>  </h1>
+      <h2 id="total" class="text-center col-lg-12 col-md-12" value="0">Your Guess</h2>
 
     </div>
   <div class="row">
-      <button id="adding" class="col-lg-3 col-md-3 col-sm-3">
-          <img id="" value="0" src="assets/crystal.png" class="crystal-image max100">
-          <h1 id="userguess1"  value="0" class="text-center col-lg-12">0</h1>
-      </button>
-      <button id="adding1" class="col-lg-3 col-md-3 col-sm-3">
-          <img id="" value="0" src="assets/crystal.png" class="crystal-image max100">
-          <h1 id="userguess2"  value="0" class="text-center col-lg-12">0</h1>
-      </button>
-      <button id="adding2" class="col-lg-3 col-md-3 col-sm-3">
-          <img id="" value="0" src="assets/crystal.png" class="crystal-image max100">
-          <h1 id="userguess3"  value="0" class="text-center col-lg-12">0</h1>
-      </button>
-      <button id="adding3 " class="col-lg-3 col-md-3 col-sm-3">
-          <img id="" value="0" src="assets/crystal.png" class="crystal-image max100">
-          <h1 id="userguess4"  value="0" class="text-center col-lg-12">0</h1>
-      </button>   
+      <div class="col-lg-3 col-md-3 col-sm-3">
+          <img id="" value="0" src="assets/crystal.png" class="max100">
+          <button id="userinput"  class="userguesses text-center col-lg-12">0</button>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3">
+          <img id="" src="assets/crystal.png" class="max100">
+          <button id="userinput"  class="userguesses text-center col-lg-12">0</button>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3">
+          <img id="" src="assets/crystal.png" class="max100">
+          <button id="userinput"  class="userguesses text-center col-lg-12">0</button>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3">
+          <img id="" src="assets/crystal.png" class="max100">
+          <button id="userinput"  class="userguesses text-center col-lg-12">0</button>
+      </div>   
       
   </div>
-  <h2 class="text-center">
-        <div id="loss" class="col-lg-6 col-md-6 text-center" value="0"></div>
-        <div id="wins" class="col-lg-6 col-md-6 text-center" value="0"></div>
-          </h2>
+  <br>
+  <h3 class="text-center row">
+        <div id="losses" class="col-lg-6 col-md-6 text-center" value="0">LOSSES</div>
+        <div id="wins" class="col-lg-6 col-md-6 text-center" value="0">WINS</div>
+          </h3>
 
 
 </div>
@@ -79,41 +71,51 @@ div.innerHTML += guess;
 
 
   var counter = 0;
-  
-  var div3 = document.getElementById('total');
+  var total = $("#total");
+  var wins = 0;
+  console.log(wins);
+  var losses = 0;
+  console.log(losses);
 
-div3.innerHTML += counter;
-
+  total.innerHTML += counter;
   var userGuess = [10, 5, 3, 7];
-
-$('#userguess1').text(userGuess[0]);
-$('#userguess2').text(userGuess[1]);
-$('#userguess3').text(userGuess[2]);
-$('#userguess4').text(userGuess[3]);
- 
-
   
 
-  $(".crystal-image").on("click", function() {
     for (var i = 0; i < userGuess.length; i++) {
-        var crystalValue = (userGuess[i]);
-        crystalValue = parseInt(crystalValue);
-    counter += crystalValue;
-    alert("New score: " + counter);
+      imageCrystal = $(".userguesses");
+//Here is where I was having the issue
+//Issue solved: Attributes of falue set within the same working for loop using the eq method
+      imageCrystal.eq(0).text(userGuess[0]).attr("value", userGuess[0]) ;
+        imageCrystal.eq(1).text(userGuess[1]).attr("value", userGuess[1]) ;
+        imageCrystal.eq(2).text(userGuess[2]).attr("value", userGuess[2]) ;
+        imageCrystal.eq(3).text(userGuess[3]).attr("value", userGuess[3]) ;
+        $(".userguesses").append(imageCrystal);
+    }
     
+    $(".userguesses").on("click", function() {
+
+//  var crystalValue = (userGuess[i]);
+    var crystalValue = ($(this).attr("value"));
+    crystalValue = parseInt(crystalValue);
+    counter += crystalValue;
+    $('#total').text(counter);
 
     if (counter === guess) {
       alert("You win!");
       $('#wins').text('YOU WIN!');
-    }
+      counter = 0;
+      $('#wins').text('WINS ' + (wins+=1));
+}
 
     else if (counter >= guess) {
       alert("You lose!!");
-      $('#loss').text('YOU\'RE DONE!');
+      $('#losses').text('YOU\'RE DONE!');
+      counter = 0;
+      $('#losses').text('LOSSES ' + (losses+=1));
     }
-}
 
   });
+
 
   </script>
 
